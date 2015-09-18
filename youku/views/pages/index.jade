@@ -1,5 +1,25 @@
 extends ../layout
 
 block content
-	.container
-		.moves
+	script(type="text/javascript").
+		function doPlay(url) {
+			window.location.target = "_blank";
+			window.location.href = url;
+		}	
+	.l-container
+		.movies
+			.card-deck-wrapper
+				.card-deck
+					each movie, i in movies
+						.card
+							a(href="/movie/#{movie.id}",target="_blank")
+								img.card-img-top.l-img-width(src="#{movie.img}")
+							.card-block
+								h4.card-title #{movie.title} 
+								p.card-text #{movie.subtitle}
+								p.card-text
+									small.text-muted haha~ #{i}
+								p.card-text
+									btn.btn.btn-primary(onclick="doPlay('#{movie.goto}')") play								
+								
+
