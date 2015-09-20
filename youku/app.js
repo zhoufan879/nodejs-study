@@ -27,9 +27,28 @@ app.get("/", function(req, res){
 	});
 });
 
-app.route("/movie/*")
+app.get("/admin", function(req, res){
+	res.render("admin", {
+		title : "后台管理系统"
+	});
+});
+
+app.get("/admin/movie/list", function(req, res){
+	res.render("movie/list", {
+		title : "电影列表",
+		movies : json_movies
+	});
+});
+
+app.get("/admin/movie/add", function(req, res){
+	res.render("movie/add", {
+		title : "录入新电影"
+	});
+});
+
+app.route("/movie/:id")
 	.get(function(req, res) {
-		var id = req.params["0"];
+		var id = req.params.id;
 		var json_path = "./modal/" + id + ".json";			// ./modal/1001.json
 		var json_movie = getJson(json_path);
 

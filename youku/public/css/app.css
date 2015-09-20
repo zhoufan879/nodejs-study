@@ -1,6 +1,9 @@
 body {
 	margin: 50px;
 }
+.l-form , .l-list {
+	margin-top: 30px;
+}
 .l-card-deck {
 	width: 800px;
 }

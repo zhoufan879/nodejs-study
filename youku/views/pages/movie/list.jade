@@ -1,0 +1,25 @@
+extends ../../layout
+
+block content
+	script.
+		$(function(){
+		});
+
+	.container
+		.l-list
+			table.table.table-hover
+				thead
+					tr
+						td #
+						td 编号
+						td 标题
+						td 二级标题
+						td 操作
+				tbody
+				each m,i in movies
+					tr
+						td #{i+1}
+						td #{m.id}
+						td #{m.title}	
+						td #{m.subtitle}
+						td -
