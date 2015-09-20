@@ -10,11 +10,11 @@ block content
 
 		var Validator = {};
 		Validator["required"] = function(e){
-			if(jQuery.isEmptyObject(e.value)) return true; return false;
+			return jQuery.isEmptyObject(e.value);
 		};
 		Validator["isChinese"] = function(e){
 			var rname=/[\u4E00-\u9FA5]/;  //u4E00-u9FA5 这是汉字编码范围，首先检测str是否在这个范围之内，是的话，返回true 否则false   
-		    if(!rname.test(e.value)) return true; return false;
+		    return (!rname.test(e.value));
 		};
 		Validator.work = function(e){
 			var pass = true;
