@@ -4,7 +4,10 @@ var app = express();
 
 var port = 1377;
 
-var json_movies = require("./modal/movies.json");
+var MovieDao = require("./dao/MovieDao.js");
+console.log(MovieDao);
+
+// var json_movies = require("./modal/movies.json");
 
 // 设置视图的根目录 ./views
 app.set("views", "./views/pages");
@@ -34,9 +37,12 @@ app.get("/admin", function(req, res){
 });
 
 app.get("/admin/movie/list", function(req, res){
-	res.render("movie/list", {
-		title : "电影列表",
-		movies : json_movies
+	MovieDao.queryAll(function(err, movies){
+		if(err) throw err;
+		res.render("movie/list", {
+			title : "电影列表",
+			movies : movies
+		});
 	});
 });
 
