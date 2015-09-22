@@ -51,32 +51,58 @@ app.get("/admin/movie/list", function(req, res){
 });
 
 app.get("/admin/movie/add", function(req, res){
-	res.render("movie/add", {
-		title : "录入新电影"
-	});
+	console.log(req.query.id);
+	if(req.query.id){
+		MovieDao.queryById(req.query.id, function(err, movie){
+			res.render("movie/add", {
+				title : "录入新电影",
+				m : movie
+			});
+		});
+	}else {
+		res.render("movie/add", {
+			title : "录入新电影",
+			m : {}
+		});
+	}
 });
 
 app.post("/admin/movie/add", function(req, res){
-	console.log(req.is("html"));
-	console.log(req.is("json"));
-	//console.log(req);
-	console.log(req.get("content-type"));
+	MovieDao.add(req.body, function(err){
+		if(err) throw err;
+
+		console.log("add success");
+		res.status(200).json({
+			status : 200,
+			info : "added"
+		});
+	});	
+});
+
+app.delete("/admin/movie/:id", function(req, res){
+	var _id = req.params.id;
+	MovieDao.remove(_id, function(err){
+		if(err) throw err;
+
+		console.log("delete success");
+		res.status(200).json({
+			status : 200,
+			info : "deleted"
+		});
+	});
+});
+
+app.put("/admin/movie", function(req, res){
 	console.log(req.body);
-	console.log(req.params);
-	console.log(req.query);
+	MovieDao.update(req.body, function(err){
+		if(err) throw err;
 
-	var json = {
-
-	};
-	// MovieDao.add(json, function(err){
-	// 	if(err) throw err;
-
-	// 	console.log("add success");
-	// 	res.status(200).json({
-	// 		status : 200,
-	// 		data : "added"
-	// 	});
-	// });	
+		console.log("add success");
+		res.status(200).json({
+			status : 200,
+			info : "updated"
+		});
+	});	
 });
 
 app.route("/movie/:id")

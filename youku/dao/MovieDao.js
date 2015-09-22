@@ -23,9 +23,24 @@ module.exports = {
 		Movie.find({}, callback);
 	},
 
+	queryById : function(id, callback) {
+		console.log(id);
+		Movie.findById( id, callback);
+	},
+
 	add : function(json, callback){
 		var m = new Movie(json); 
+		console.log("saveOrUpdate", m);
 		m.save(callback);
+	},
+
+	remove : function(id, callback) {
+		console.log(id);
+		Movie.findByIdAndRemove(id, callback);
+	},
+
+	update : function(json, callback) {
+		Movie.findByIdAndUpdate(json._id, json, callback);
 	},
 
 	test : function() {

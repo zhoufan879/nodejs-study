@@ -64,7 +64,29 @@ block content
 			};
 		}
 
-		function doSubmit(){
+		function doUpdate(id){
+			var obj = doValidate();
+			console.dir(obj);
+			
+			if(obj && obj.pass){
+				var params = {};
+				for(var _i in obj.fields){
+					var model = obj.fields[_i];
+					var key = model.id.substring(2);
+					params[key] = model.value;
+				}
+
+				params["_id"] = $("#_id").val();
+				var json = (eval(params));
+				console.log(json);
+				$.put('/admin/movie/', json, function(data, textStatus, xhr) {
+					console.log(data);
+					alert(data.info);
+				});
+			}
+		}
+
+		function doAdd(){
 			var obj = doValidate();
 			console.dir(obj);
 			
@@ -78,38 +100,42 @@ block content
 				var json = (eval(params));
 				$.post('/admin/movie/add', json, function(data, textStatus, xhr) {
 					console.log(data);
+					alert(data.info);
 				});
 			}
 		}
 	.container
 		.l-form 
 			form
+				input(type="hidden", id="_id", value="#{m._id}")
 				.form-group.row
 					label.col-sm-2.form-control-label(for="m_name") 名称
 					.col-sm-10
-						input.l-input.form-control(id="m_name", placeholder="请输入电影名称", validator="required|isChinese")
+						input.l-input.form-control(id="m_name", placeholder="请输入电影名称", value="#{m.title || m.name || ''}", validator="required|isChinese")
 				.form-group.row
 					label.col-sm-2.form-control-label(for="m_director") 导演
 					.col-sm-10
-						input.l-input.form-control(id="m_director", placeholder="请输入本片导演", validator="required")
+						input.l-input.form-control(id="m_director", placeholder="请输入本片导演", value="#{m.director || ''}", validator="required")
 				.form-group.row
 					label.col-sm-2.form-control-label(for="m_country") 所属国家
 					.col-sm-10
-						input.l-input.form-control(id="m_country", placeholder="请输入电影所属国家", validator="required")
+						input.l-input.form-control(id="m_country", placeholder="请输入电影所属国家", value="#{m.country || ''}", validator="required")
 				.form-group.row
 					label.col-sm-2.form-control-label(for="m_language") 语言
 					.col-sm-10
-						input.l-input.form-control(id="m_language", placeholder="请输入电影语种", validator="required")
+						input.l-input.form-control(id="m_language", placeholder="请输入电影语种", value="#{m.language || ''}", validator="required")
 				.form-group.row
 					label.col-sm-2.form-control-label(for="m_date") 上映时间
 					.col-sm-10
-						input.l-input.form-control(id="m_date", placeholder="请输入电影上映时间", validator="required")
+						input.l-input.form-control(id="m_date", placeholder="请输入电影上映时间", value="#{m.date || ''}", validator="required")
 				.form-group.row
 					label.col-sm-2.form-control-label(for="m_desc") 简介
 					.col-sm-10
-						textarea.l-input.form-control(id="m_desc",rows="5", validator="required")
+						textarea.l-input.form-control(id="m_desc", rows="5", validator="required") #{m.desc || ''}
 				.form-group.row
 					.col-sm-10.col-sm-offset-2
-						button.btn.btn-primary(type="button",onclick="doSubmit()") Submit
-						//- disabled
+						if (m._id)
+							button.btn.btn-primary(type="button",onclick="doUpdate()") Update
+						else
+							button.btn.btn-primary.disabled(type="button",onclick="doAdd()",disabled) Submit
 
