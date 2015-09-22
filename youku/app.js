@@ -22,15 +22,18 @@ app.use(bodyParse.urlencoded({ extended: true }));
 app.use(bodyParse.json());
 
 // 设置静态资源 
-app.use(express.static(path.join(__dirname, "bower_components")));
+// app.use(express.static(path.join(__dirname, "bower_components")));
 app.use(express.static(path.join(__dirname, "public")));
 // console.log(path.join(__dirname, "public"));				// e:\study\nodejs\project\nodejs-study\youku\public
 
 // 路由
 app.get("/", function(req, res){
-	res.render("index", {
-		title : "Youku 首页",
-		movies : json_movies
+	MovieDao.queryAll(function(err, movies){
+		if(err) throw err;
+		res.render("index", {
+			title : "Youku 首页",
+			movies : movies
+		});
 	});
 });
 
