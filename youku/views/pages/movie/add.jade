@@ -67,8 +67,18 @@ block content
 		function doSubmit(){
 			var obj = doValidate();
 			console.dir(obj);
+			
 			if(obj && obj.pass){
-				alert("success!");
+				var params = {};
+				for(var _i in obj.fields){
+					var model = obj.fields[_i];
+					var key = model.id.substring(2);
+					params[key] = model.value;
+				}
+				var json = (eval(params));
+				$.post('/admin/movie/add', json, function(data, textStatus, xhr) {
+					console.log(data);
+				});
 			}
 		}
 	.container

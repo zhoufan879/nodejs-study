@@ -1,11 +1,12 @@
 var express = require("express");
+var bodyParse = require("body-parser");
 var path = require("path");
 var app = express();
 
 var port = 1377;
 
 var MovieDao = require("./dao/MovieDao.js");
-console.log(MovieDao);
+MovieDao.test();
 
 // var json_movies = require("./modal/movies.json");
 
@@ -15,12 +16,15 @@ app.set("views", "./views/pages");
 // 设置默认模版引擎 Jade
 app.set("view engine", "jade");
 
+// 解析 application/x-www-form-urlencoded 
+app.use(bodyParse.urlencoded({ extended: true }));
+// 解析 application/json
+app.use(bodyParse.json());
+
 // 设置静态资源 
 app.use(express.static(path.join(__dirname, "bower_components")));
 app.use(express.static(path.join(__dirname, "public")));
 // console.log(path.join(__dirname, "public"));				// e:\study\nodejs\project\nodejs-study\youku\public
-
-//app.use(express.bodyParser());
 
 // 路由
 app.get("/", function(req, res){
@@ -50,6 +54,29 @@ app.get("/admin/movie/add", function(req, res){
 	res.render("movie/add", {
 		title : "录入新电影"
 	});
+});
+
+app.post("/admin/movie/add", function(req, res){
+	console.log(req.is("html"));
+	console.log(req.is("json"));
+	//console.log(req);
+	console.log(req.get("content-type"));
+	console.log(req.body);
+	console.log(req.params);
+	console.log(req.query);
+
+	var json = {
+
+	};
+	// MovieDao.add(json, function(err){
+	// 	if(err) throw err;
+
+	// 	console.log("add success");
+	// 	res.status(200).json({
+	// 		status : 200,
+	// 		data : "added"
+	// 	});
+	// });	
 });
 
 app.route("/movie/:id")
