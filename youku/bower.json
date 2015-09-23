@@ -1,0 +1,24 @@
+{
+  "name": "youku",
+  "version": "0.0.1",
+  "homepage": "https://github.com/zhoufan879/nodejs-study",
+  "authors": [
+    "zhoufan879"
+  ],
+  "description": "nodejs 学习/练手",
+  "keywords": [
+    "nodejs"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/libs",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "4.0.0-alpha"
+  }
+}
